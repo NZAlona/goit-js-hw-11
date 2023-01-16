@@ -21,7 +21,7 @@ async function onFormSubmit(event) {
 }
 
 async function pixabayFetch(searchQuery, page = 1) {
-  const BASE_URL = 'https://pixabay.com/api';
+  const BASE_URL = 'https://pixabay.com/api/';
   const KEY = '32842210-baf8a3411c9407cd0a791243e';
   try {
     const fetchResponse = await axios.get(
@@ -31,7 +31,7 @@ async function pixabayFetch(searchQuery, page = 1) {
     console.log(resp);
     return resp;
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 }
 
