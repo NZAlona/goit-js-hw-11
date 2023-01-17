@@ -40,6 +40,7 @@ button[type='submit'] {
   height: 300px;
   margin-bottom: 60px;
 }
+
 .photo-card img {
   display: block;
   max-width: 100%;
@@ -56,4 +57,20 @@ button[type='submit'] {
   border-radius: 0px 0px 4px 4px;
   box-shadow: 0px 1px 3px rgb(0 0 0 / 12%), 0px 1px 1px rgb(0 0 0 / 14%),
     0px 2px 1px rgb(0 0 0 / 20%);
+}
+
+.load-more {
+  display: block;
+  margin: 0 auto;
+  margin-top: 25px;
+  margin-bottom: 20px;
+  color: navy;
+  background-color: #eee;
+  font-size: large;
+  color: black;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
 }
