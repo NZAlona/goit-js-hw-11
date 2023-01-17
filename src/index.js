@@ -76,7 +76,7 @@ function cardsRender(data) {
         comments,
         downloads,
       }) => `<div class="photo-card">
-  <img src="${webformatURL}" alt="${tags}" loading="lazy" width= 480/>
+  <img src="${webformatURL}" alt="${tags}" loading="lazy" width ="420"/>
   <div class="info">
     <p class="info-item">
       <b>Likes <br>${likes}</b>

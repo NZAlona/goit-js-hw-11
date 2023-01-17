@@ -36,9 +36,10 @@ button[type='submit'] {
 }
 
 .photo-card {
-  width: 400px;
+  // width: 400px;
   height: 300px;
   margin-bottom: 60px;
+  flex-basis: calc((100% - 90px) / 4);
 }
 
 .photo-card img {
