@@ -1,6 +1,15 @@
 import Notiflix from 'notiflix';
 import axios from 'axios';
 
+Notiflix.Notify.init({
+  width: '430px',
+  position: 'right-top',
+  distance: '10px',
+  borderRadius: '5px',
+  opacity: '1',
+  fontSize: '18px',
+});
+
 const formSearch = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
 const loadBtn = document.querySelector('.load-more');
@@ -24,28 +33,32 @@ async function onFormSubmit(event) {
 
   gallery.innerHTML = '';
 
-  const reply = await pixabayFetch(searchQuery, page);
+  try {
+    const reply = await pixabayFetch(searchQuery, page);
 
-  const hits = reply.hits.length;
+    const hits = reply.hits.length;
 
-  if (!hits) {
-    Notiflix.Notify.failure(
-      'Sorry, there are no images matching your search query. Please try again.'
-    );
-    return;
-  }
+    if (!hits) {
+      Notiflix.Notify.failure(
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
+      return;
+    }
 
-  const totalHits = reply.totalHits;
-  if (totalHits > 0) {
-    Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
-  }
+    const totalHits = reply.totalHits;
+    if (totalHits > 0) {
+      Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
+    }
 
-  cardsRender(reply);
-  loadBtn.classList.remove('hidden');
-  if (page * 40 > totalHits) {
-    Notiflix.Notify.warning(
-      "We're sorry, but you've reached the end of search results."
-    );
+    cardsRender(reply);
+    loadBtn.classList.remove('hidden');
+    if (page * 40 > totalHits) {
+      Notiflix.Notify.warning(
+        "We're sorry, but you've reached the end of search results."
+      );
+    }
+  } catch {
+    catchErrorNotification();
   }
 }
 
@@ -60,7 +73,7 @@ async function pixabayFetch(searchQuery, page = 1) {
 
     return resp;
   } catch (error) {
-    console.log(error);
+    throw new Error(error.statusText);
   }
 }
 
@@ -100,13 +113,24 @@ function cardsRender(data) {
 async function onBtnClick() {
   page += 1;
 
-  const data = await pixabayFetch(searchQuery, page);
+  try {
+    const data = await pixabayFetch(searchQuery, page);
 
-  cardsRender(data);
-  if (page * 40 > data.totalHits) {
-    Notiflix.Notify.warning(
-      "We're sorry, but you've reached the end of search results."
-    );
-    loadBtn.classList.add('hidden');
+    cardsRender(data);
+
+    if (page * 40 > data.totalHits) {
+      Notiflix.Notify.warning(
+        "We're sorry, but you've reached the end of search results."
+      );
+      loadBtn.classList.add('hidden');
+    }
+  } catch {
+    catchErrorNotification();
   }
+}
+
+function catchErrorNotification() {
+  Notiflix.Notify.failure(
+    'Oops, something went wrong. There are no images matching your request. Please try it again.'
+  );
 }
