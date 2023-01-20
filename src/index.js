@@ -1,5 +1,7 @@
 import Notiflix from 'notiflix';
 import axios from 'axios';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 Notiflix.Notify.init({
   width: '430px',
@@ -9,6 +11,8 @@ Notiflix.Notify.init({
   opacity: '1',
   fontSize: '18px',
 });
+
+let lightbox = new SimpleLightbox('.gallery a');
 
 const formSearch = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
@@ -89,7 +93,7 @@ function cardsRender(data) {
         comments,
         downloads,
       }) => `<div class="photo-card">
-  <img src="${webformatURL}" alt="${tags}" loading="lazy" width ="360"/>
+ <a href="${largeImageURL}"> <img src="${webformatURL}" alt="${tags}" loading="lazy" width ="360"/></a>
   <div class="info">
     <p class="info-item">
       <b>Likes <br>${likes}</b>
@@ -108,6 +112,7 @@ function cardsRender(data) {
     )
     .join('');
   gallery.insertAdjacentHTML('beforeend', markup);
+  lightbox.refresh();
 }
 
 async function onBtnClick() {
